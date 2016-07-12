@@ -7,8 +7,5 @@ MESSAGE = 'Surprise, mothafucka!'
 URL = 'https://api.groupme.com/v3/'
 POST_URL ='https://api.groupme.com/v3/bots/post/'
 
-def main():
+def post_msg():
 	r = requests.post(POST_URL, data={"bot_id": BOT_ID, "text": MESSAGE})
-	
-if __name__ == '__main__':
-	main()
