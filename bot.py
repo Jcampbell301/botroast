@@ -9,13 +9,6 @@ POST_URL ='https://api.groupme.com/v3/bots/post/'
 
 def main():
 	r = requests.post(POST_URL, data={"bot_id": BOT_ID, "text": MESSAGE})
-	while True:
-		try:
-			r = requests.get(URL + 'groups/)
-			print(r.text)
-		except:
-			continue
-		time.sleep(0.5)
-
+	
 if __name__ == '__main__':
 	main()
