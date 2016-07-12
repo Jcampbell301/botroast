@@ -8,7 +8,7 @@ app = flask.Flask(__name__)
 @app.route('/', methods=['GET', 'POST'])
 def index():
 	if request.method == 'POST':
-		bot.post_msg()
+		bot.post(request.get_json())
 	return flask.render_template('index.html')
 	
 if __name__ == '__main__':
