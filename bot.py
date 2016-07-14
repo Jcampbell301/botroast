@@ -32,7 +32,7 @@ class Bot:
 		cmd = msg.split()[0]
 		resp = 'Cool cool.'
 		if cmd not in CMDS:
-			resp = 'Invalid command. !help for help'.
+			resp = 'Invalid command. !help for help'
 		else if cmd == '!help':
 			resp = HELP
 		else if cmd == '!burn':
