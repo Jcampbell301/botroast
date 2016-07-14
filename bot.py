@@ -33,11 +33,8 @@ class Bot:
 		resp = 'Cool cool.'
 		if cmd not in CMDS:
 			resp = 'Invalid command. !help for help'
-		else if cmd == '!help':
+		elif cmd == '!help':
 			resp = HELP
-		else if cmd == '!burn':
+		elif cmd == '!burn':
 			resp = self.burn()
-		else if cmd == '!since':
-			
-			resp = since()
 		requests.post(POST_URL, data={'bot_id': self.BOT_ID, "text": resp})
