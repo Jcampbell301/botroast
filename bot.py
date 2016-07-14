@@ -15,8 +15,8 @@ class Bot:
 		self.ACCESS_TOKEN = ACCESS_TOKEN
 		self.GROUP_ID = GROUP_ID
 		
-		self.MSG = analysis.get_all_msg(self.ACCESS_TOKEN, self.GROUP_ID)
-		results = analysis.get_activity(self.MSG)
+		self.MSG = anal.get_all_msg(self.ACCESS_TOKEN, self.GROUP_ID)
+		results = anal.get_activity(self.MSG)
 		self.DF = results[0]
 		self.DATA_MONTH = results[1]
 		self.DATA_HOURS = results[2]
