@@ -6,6 +6,8 @@ import argparse
 import matplotlib.pyplot as plt
 import seaborn as sns
 import datetime
+from StringIO import StringIO
+import prettytable    
 
 global ACCESS_TOKEN	
 global GROUP_ID
@@ -128,7 +130,12 @@ def analyze(acc_tok, gid):
 	print('Total Number of Words: ' + str(activity_df['Words'].sum()))
 	print('Total Likes: ' + str(activity_df['Likes Received'].sum()))
 	print('Total Days: ' + str((datetime.datetime.fromtimestamp(ALL_MSG[0]['created_at'])-datetime.datetime.fromtimestamp(ALL_MSG[-1]['created_at'])).days))
-	print(activity_df.to_string())
+	
+	output = StringIO()
+	activity_df.to_csv(output)
+	output.seek(0)
+	pt = prettytable.from_csv(output)
+	print pt
 	
 	f, ax = plt.subplots(3, 2)
 	activity_df.plot(kind='bar', x='Member', y='Message Frequency', colormap='Set2', legend=False, ax=ax[0, 0])

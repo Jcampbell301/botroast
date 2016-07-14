@@ -9,9 +9,6 @@ artoo = Bot('6c059ca743bdf06151f0e4ef6c')
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-	# if request.method == 'POST':
-		# bot.post(request.get_json())
-		# bot.post('Lorem ipsum')
 	return flask.render_template('index.html')
 
 @app.route('/post', methods=['POST'])
