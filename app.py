@@ -5,7 +5,7 @@ import bot
 import requests
 
 app = flask.Flask(__name__)
-artoo = Bot('6c059ca743bdf06151f0e4ef6c')
+#artoo = Bot('6c059ca743bdf06151f0e4ef6c')
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
