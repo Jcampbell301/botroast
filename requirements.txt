@@ -13,3 +13,4 @@ sqlalchemy-migrate==0.10.0
 sqlparse==0.1.19
 WTForms==2.1
 Flask-SQLALchemy==2.1
+seaborn==0.7.1
