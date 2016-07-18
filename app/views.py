@@ -40,11 +40,13 @@ def register():
 	
 @app.route('/callback/<bot_id>', methods=['POST'])
 def callback(bot_id):
+	req_bot = models.User.query.get(bot_id)
+	tmp_bot = Bot(req_bot.bot_id, req_bot.acc_tok, req_bot.group_id)
 	if request.method == 'POST':
 		mreq = json.loads(request.get_data())
 		msg = mreq['text']
-
+		
 		if msg.split()[0][0] == '!': #Msg is a command
-			BOT_DICT[bot_id].respond(msg)
+			tmp_bot.respond(msg)
 			
 	return flask.render_template('index.html')
