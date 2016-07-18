@@ -2,6 +2,9 @@ import requests
 import json
 import time
 import analysis as anal
+from StringIO import StringIO
+import prettytable    
+import datetime
 
 class Bot:
 	'GroupMe Bot that does a lot of things. Dope af.'
@@ -22,19 +25,43 @@ class Bot:
 		self.DATA_HOURS = results[2]
 		
 	def post(self, msg):
-		r = requests.post(POST_URL, data={"bot_id": self.BOT_ID, "text": msg})
+		r = requests.post(Bot.POST_URL, data={"bot_id": self.BOT_ID, "text": msg})
 		return r.text
 	
 	def burn(self):
 		return "https://en.wikipedia.org/wiki/List_of_burn_centers_in_the_United_States\nhttp://www.uchospitals.edu/specialties/burn-center/"
-			
+	
+	def history(self):
+		output = StringIO()
+		self.DF.to_csv(output)
+		output.seek(0)
+		pt = prettytable.from_csv(output)
+		
+		ret = '<pre>'
+		ret += 'Analytics of GROUP# ' + str(self.GROUP_ID) + '<br>'
+		ret += 'Requested at ' + datetime.datetime.today().isoformat(' ') + '<br> <br>'
+		ret += 'Total Number of Messages: ' + str(self.DF['Message Frequency'].sum()) + '<br>'
+		ret += 'Total Number of Words: ' + str(self.DF['Words'].sum()) + '<br>'
+		ret += 'Total Likes: ' + str(self.DF['Likes Received'].sum()) + '<br>'
+		ret += 'Total Days: ' + str((datetime.datetime.fromtimestamp(self.MSG[0]['created_at'])-datetime.datetime.fromtimestamp(self.MSG[-1]['created_at'])).days) + '<br>'
+		ret += pt.get_string() + '</pre>'
+		return ret
+		
 	def respond(self, msg):
-		cmd = msg.split()[0]
+		cmd = str(msg.split()[0])
 		resp = 'Cool cool.'
-		if cmd not in CMDS:
+		
+		if cmd not in Bot.CMDS:
 			resp = 'Invalid command. !help for help'
 		elif cmd == '!help':
-			resp = HELP
+			resp = Bot.HELP
 		elif cmd == '!burn':
 			resp = self.burn()
-		requests.post(POST_URL, data={'bot_id': self.BOT_ID, "text": resp})
+		elif cmd == '!history':
+			resp = self.history()
+			with open('./templates/index.html', 'w') as html_file:
+				print(html_file)
+				html_file.truncate()
+				html_file.write(resp)
+			resp = 'Check out http://groupmebot-stage.herokuapp.com/ for analytics.'
+		requests.post(Bot.POST_URL, data={'bot_id': self.BOT_ID, "text": resp})

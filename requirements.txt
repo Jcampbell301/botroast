@@ -1,9 +1,0 @@
-Flask==0.10.1
-gunicorn==19.4.5
-requests==2.7.0
-numpy==1.10.4
-Jinja2==2.8
-requests-futures==0.9.5
-pandas==0.15.2
-prettytable==0.7.2
-matplotlib==1.5.1

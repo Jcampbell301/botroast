@@ -1,0 +1,22 @@
+<h1>Register GroupMe Bot</h1>
+<form action="" method="post" name="login">
+      {{ form.hidden_tag() }}
+      <p>
+          BOT ID:<br>
+          {{ form.bot_id(size=80) }}<br>
+            <span style="color: red;">[{{ form.errors.bot_id }}]</span>
+          <br>
+		  
+		  ACCESS TOKEN:<br>
+		  {{ form.tok_id(size=80) }} <br>
+            <span style="color: red;">[{{ form.errors.tok_id }}]</span>
+          <br>
+		  
+		  GROUP ID:<br>
+		  {{ form.group_id(size=80) }} <br>
+            <span style="color: red;">[{{ form.errors.group_id }}]</span>
+          <br>
+		  
+      </p>
+      <p><input type="submit" value="Register"></p>
+  </form>
