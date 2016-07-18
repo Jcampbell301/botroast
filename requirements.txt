@@ -8,3 +8,8 @@ pandas==0.15.2
 prettytable==0.7.2
 matplotlib==1.5.1
 Flask-WTF==0.12
+SQLAlchemy==1.0.8
+sqlalchemy-migrate==0.10.0
+sqlparse==0.1.19
+WTForms==2.1
+Flask-SQLALchemy==2.1
