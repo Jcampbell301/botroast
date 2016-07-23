@@ -18,12 +18,6 @@ class Bot:
 		self.ACCESS_TOKEN = ACCESS_TOKEN
 		self.GROUP_ID = GROUP_ID
 		
-		self.MSG = anal.get_all_msg(self.ACCESS_TOKEN, self.GROUP_ID)
-		results = anal.get_activity(self.MSG)
-		self.DF = results[0]
-		self.DATA_MONTH = results[1]
-		self.DATA_HOURS = results[2]
-		
 	def post(self, msg):
 		r = requests.post(Bot.POST_URL, data={"bot_id": self.BOT_ID, "text": msg})
 		return r.text
@@ -32,6 +26,15 @@ class Bot:
 		return "https://en.wikipedia.org/wiki/List_of_burn_centers_in_the_United_States\nhttp://www.uchospitals.edu/specialties/burn-center/"
 	
 	def history(self):
+		self.MSG = anal.get_all_msg(self.ACCESS_TOKEN, self.GROUP_ID)
+		results = anal.get_activity(self.MSG)
+		self.DF = results[0]
+		self.DATA_MONTH = results[1]
+		self.DATA_HOURS = results[2]
+		self.DATA_DAYS = results[3]
+		
+		anal.graph(self.GROUP_ID, self.DF, self.DATA_MONTH, self.DATA_HOURS, self.DATA_DAYS)
+		
 		output = StringIO()
 		self.DF.to_csv(output)
 		output.seek(0)
@@ -45,6 +48,14 @@ class Bot:
 		ret += 'Total Likes: ' + str(self.DF['Likes Received'].sum()) + '<br>'
 		ret += 'Total Days: ' + str((datetime.datetime.fromtimestamp(self.MSG[0]['created_at'])-datetime.datetime.fromtimestamp(self.MSG[-1]['created_at'])).days) + '<br>'
 		ret += pt.get_string() + '</pre>'
+		ret += '<br> <br>'
+		
+		ret += '<img src= {{ act_url }}> <br> <br>'
+		ret += '<img src={{ m_url }}>'
+		ret += '<img src={{ l_url }}>'
+		ret += '<img src={{ r_url }}>'
+		
+		
 		return ret
 		
 	def respond(self, msg):
@@ -59,9 +70,10 @@ class Bot:
 			resp = self.burn()
 		elif cmd == '!history':
 			resp = self.history()
-			with open('./templates/index.html', 'w') as html_file:
-				print(html_file)
+			file_name = str(self.GROUP_ID) + '_ANALYTICS.html'
+			with open('./app/templates/' + file_name, 'w') as html_file:
 				html_file.truncate()
 				html_file.write(resp)
-			resp = 'Check out http://groupmebot-stage.herokuapp.com/ for analytics.'
-		requests.post(Bot.POST_URL, data={'bot_id': self.BOT_ID, "text": resp})
+			resp = 'Check out http://groupmebot-stage.herokuapp.com/analytics/' + str(self.GROUP_ID) + ' for analytics.'
+		
+		requests.post(Bot.POST_URL, data={'bot_id': self.BOT_ID, 'text': resp})

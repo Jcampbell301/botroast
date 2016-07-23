@@ -9,7 +9,6 @@ class RegisterForm(Form):
 	group_id = StringField('group_id', validators=[DataRequired()])
 	
 	def validate(self):
-		print('Trying to validate')
 		r = requests.get("https://api.groupme.com/v3/bots?token=" + str(self.tok_id.data))
 		print(r)
 		resp = r.json()
@@ -34,3 +33,20 @@ class RegisterForm(Form):
 			self.errors['bot_id'] = 'Invalid Bot ID'
 			return False
 		return True
+		
+class AnalyzeForm(Form):
+	tok_id = StringField('tok_id', validators=[DataRequired()])
+	group_id = StringField('group_id', validators=[DataRequired()])
+	
+	def validate(self):
+		r = requests.get("https://api.groupme.com/v3/groups?token=" + str(self.tok_id.data))
+		resp = r.json()
+		if resp['meta']['code'] != 200:
+			self.errors['tok_id'] = 'Invalid Access Token'
+			return False
+		
+		for group in resp['response']:
+			if self.group_id.data == group['id']:
+				return True
+		self.errors['group_id'] = 'Invalid Group ID'
+		return False
