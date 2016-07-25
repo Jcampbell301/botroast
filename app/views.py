@@ -8,7 +8,7 @@ from forms import RegisterForm, AnalyzeForm
 from flask_sqlalchemy import SQLAlchemy
 from app import models
 import analysis as anal
-import prettytable
+from prettytable import PrettyTable
 import time
 import datetime
 from StringIO import StringIO
@@ -54,10 +54,9 @@ def get_analysis():
 		anal.graph(form.group_id.data, results[0], results[1], results[2], results[3])
 		
 		df = results[0]
-		output = StringIO()
-		df.to_csv(output)
-		output.seek(0)
-		pt = prettytable.from_csv(output)
+		pt = PrettyTable([''] + list(df.columns))
+		for row in df.itertuples():
+			pt.add_row(row)
 		
 		ret = '<pre>'
 		ret += 'Analytics of GROUP# ' + str(form.group_id.data) + '<br>'
@@ -70,10 +69,9 @@ def get_analysis():
 		ret += '<br>'
 		
 		like_df = results[4]
-		output = StringIO()
-		like_df.to_csv(output)
-		output.seek(0)
-		pt = prettytable.from_csv(output)
+		pt = PrettyTable([''] + list(like_df.columns))
+		for row in like_df.itertuples():
+			pt.add_row(row)
 		
 		ret += '<pre>' + pt.get_string() + '</pre><br><br>'
 		

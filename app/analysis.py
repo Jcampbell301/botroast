@@ -140,6 +140,8 @@ def get_activity(MSG):
 	activity_df['Likes per Message'] = activity_df['Likes Received'].divide(activity_df['Message Frequency'])
 	activity_df['Likes Received to Likes Given'] = activity_df['Likes Received'].divide(activity_df['Likes Given'])
 	
+	like_df = pd.DataFrame([name_id]).T
+	like_df.columns = ['Member']
 	like_df = pd.DataFrame([name_id, max_liked_by, max_liked]).T
 	like_df.columns = ['Member', 'Liked Most By', 'Likes Most']
 	
