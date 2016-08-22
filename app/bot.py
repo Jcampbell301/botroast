@@ -5,10 +5,10 @@ import analysis as anal
 from StringIO import StringIO
 import prettytable
 import datetime
-
+import sp
 
 class Bot:
-    'GroupMe Bot that does a lot of things. Dope af.'
+    'GroupMe Bot that does a lot of things.'
     # BOT_ID = '6c059ca743bdf06151f0e4ef6c'
     POST_URL = 'https://api.groupme.com/v3/bots/post/'
     CMDS = ['!help', '!burn', '!since', '!history', '!spell',
@@ -78,6 +78,12 @@ class Bot:
 
         else:
             return str(t2 - t1) + " since " + "\"" + pattern + "\"."
+    
+    def spell_check(self, user):
+        self.MSG = anal.get_all_msg(self.ACCESS_TOKEN, self.GROUP_ID)
+        for msg in self.MSG:
+            if msg['name'].lower() == user.lower():
+                return sp.check(msg['text'])
 
     def respond(self, msg):
         cmd = str(msg.split()[0])
@@ -98,5 +104,7 @@ class Bot:
             resp = 'Check out http://groupmebot-stage.herokuapp.com/analytics/' + \
                 str(self.GROUP_ID) + ' for analytics.'
         elif cmd == '!since':
-            resp = since(msg[7:-1])
+            resp = since(msg[7:])
+        elif cmd == '!spell':
+            resp = spell_check(msg[7:])
         requests.post(Bot.POST_URL, data={'bot_id': self.BOT_ID, 'text': resp})

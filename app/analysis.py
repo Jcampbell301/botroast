@@ -80,7 +80,7 @@ def get_activity(MSG):
         # First post by a user. Need to initialize user into stat dictionaries
         if msg['user_id'] not in freq.keys():
             freq[msg['user_id']] = 1
-            name_id[msg['user_id']] = msg['name']
+            name_id[msg['user_id']] = msg['nickname']
             num_words[msg['user_id']] = 0
             max_day[msg['user_id']] = curr_date.date()
             msg_counter[msg['user_id']] = 1
