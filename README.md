@@ -26,3 +26,4 @@ This Bot does some things. Functionality is still quite limited but the develope
 # Analytics
 The Bot's `!history` command has been isolated as a standalone service found [here](http://groupmebot-stage.herokuapp.com/analyze). Only your Access Token and Group ID are needed: no bot registration is needed. After analysis, you will be redirected to a page with analytics displayed, and this webpage can be accessed by anyone with the url. Any conclusions regarding the dynamic within the group are NOT MINE. These are just stats, not Freudian diagnoses. 
 
+Here is an example of one of my own group chats: [http://groupmebot-stage.herokuapp.com/analytics/19428404](http://groupmebot-stage.herokuapp.com/analytics/19428404)
